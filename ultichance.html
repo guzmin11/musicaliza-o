@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espera! Alternativa Especial - Mini Kit Professor de Música</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        html { scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .urgent-bar {
+            background: #d97706; /* Laranja para indicar uma chance alternativa */
+            color: white;
+            padding: 14px 20px;
+            text-align: center;
+            font-weight: 800;
+            font-size: 16px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .warning-hero {
+            padding: 50px 20px 30px;
+            text-align: center;
+        }
+
+        .warning-text {
+            color: #d97706;
+            font-weight: 900;
+            font-size: 20px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .main-headline {
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 900;
+            line-height: 1.2;
+            color: #0f172a;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .sub-headline {
+            font-size: 18px;
+            color: #475569;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            font-weight: 500;
+        }
+
+        .highlight-orange { color: #d97706; }
+
+        .offer-card {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            margin-bottom: 40px;
+            border: 1px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .offer-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #f59e0b, #fbbf24);
+        }
+
+        .price-section {
+            background: #fffbeb;
+            border: 2px dashed #fbbf24;
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .price-value {
+            font-size: 56px;
+            font-weight: 900;
+            color: #b45309;
+            line-height: 1;
+            margin: 10px 0;
+        }
+
+        .btn-primary {
+            display: block;
+            background: #f59e0b;
+            color: white;
+            padding: 22px 30px;
+            border-radius: 12px;
+            font-size: 20px;
+            font-weight: 800;
+            text-align: center;
+            text-decoration: none;
+            text-transform: uppercase;
+            box-shadow: 0 10px 20px rgba(245, 158, 11, 0.3);
+            transition: all 0.3s;
+            animation: pulse-btn 2s infinite;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background: #d97706;
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px rgba(245, 158, 11, 0.4);
+        }
+
+        @keyframes pulse-btn {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .btn-reject {
+            display: inline-block;
+            margin-top: 25px;
+            color: #94a3b8;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: underline;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .btn-reject:hover { color: #64748b; }
+
+        .list {
+            list-style: none;
+            margin: 30px 0;
+        }
+
+        .list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 16px;
+            color: #334155;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .list li::before {
+            content: '✅';
+            font-size: 20px;
+            flex-shrink: 0;
+            margin-top: -2px;
+        }
+
+        @media (max-width: 768px) {
+            .offer-card { padding: 25px; }
+            .main-headline { font-size: 26px; }
+            .btn-primary { font-size: 16px; padding: 18px 20px; }
+            .price-value { font-size: 48px; }
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transform: scale(0.95);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .modal-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 28px;
+            font-weight: 900;
+            color: #0f172a;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .modal-text {
+            font-size: 16px;
+            color: #475569;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .btn-close {
+            background: #f1f5f9;
+            color: #334155;
+            border: none;
+            padding: 16px 30px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        .btn-close:hover {
+            background: #e2e8f0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="urgent-bar">
+        ⚠️ UMA ÚLTIMA TENTATIVA PARA TE AJUDAR
+    </div>
+
+    <div class="container">
+        <div class="warning-hero">
+            <div class="warning-text">Eu entendo...</div>
+            <h1 class="main-headline">O pacote completo pesou agora? Eu tenho o <span class="highlight-orange">essencial por muito menos.</span></h1>
+            <p class="sub-headline">Não quero que você saia de mãos vazias e volte para a velha rotina de não saber como se divulgar. Que tal uma <strong>versão resumida e direta ao ponto</strong>?</p>
+        </div>
+
+        <div class="offer-card">
+            <h2 style="font-size: 24px; font-weight: 800; text-align: center; margin-bottom: 10px;">Leve o <span class="highlight-orange">Mini Kit Professor</span></h2>
+            <p style="text-align: center; color: #475569; margin-bottom: 30px; font-size: 16px;">Os materiais mais práticos e emergenciais que vão resolver sua captação ainda essa semana, sem enrolação.</p>
+
+            <div style="background: #f8fafc; border-radius: 16px; padding: 25px; border: 1px solid #e2e8f0;">
+                <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 15px;">O que você recebe no Mini Kit:</h3>
+                <ul class="list">
+                    <li><strong>10 ideias de posts</strong> prontas para divulgar suas aulas;</li>
+                    <li><strong>5 mensagens práticas</strong> para enviar no WhatsApp e responder interessados;</li>
+                    <li><strong>3 ideias de bio profissional</strong> para organizar seu Instagram;</li>
+                    <li><strong>1 roteiro simples</strong> para apresentação das suas aulas;</li>
+                    <li><strong>3 abordagens educadas</strong> para pedir indicação sem parecer chato.</li>
+                </ul>
+            </div>
+
+            <div class="price-section">
+                <div style="font-size: 16px; font-weight: 700; color: #b45309; text-transform: uppercase;">Somente nesta etapa final</div>
+                <div class="price-value">R$ 10,00</div>
+                <div style="color: #475569; font-weight: 500;">Adicione esta versão essencial com apenas 1 clique</div>
+            </div>
+
+            <!-- TROCAR PELO LINK DO CHECKOUT DO DOWNSELL -->
+            <a href="https://checkout.educacaodivertida.site/VCCL1O8SD1VV" class="btn-primary">Quero o Mini Kit por R$ 10</a>
+
+            <div style="text-align: center;">
+                <a href="#" onclick="openModal(event)" class="btn-reject">Não. Eu realmente não preciso de ajuda com minha divulgação. Quero finalizar.</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="thankYouModal">
+        <div class="modal-content">
+            <div class="modal-icon">✅</div>
+            <h2 class="modal-title">Tudo certo!</h2>
+            <p class="modal-text">Seu pedido original já foi processado e todo o material que você comprou inicialmente já foi enviado para o seu e-mail.<br><br>Você já pode fechar esta página e aproveitar o seu conteúdo. Muito sucesso nas suas aulas!</p>
+            <button class="btn-close" onclick="closeModal()">Entendido, vou checar meu e-mail</button>
+        </div>
+    </div>
+
+    <script>
+        function openModal(e) {
+            e.preventDefault();
+            document.getElementById('thankYouModal').classList.add('active');
+            // Allow time for display:flex to apply before setting opacity
+            setTimeout(() => {
+                document.querySelector('#thankYouModal .modal-content').style.opacity = '1';
+                document.querySelector('#thankYouModal .modal-content').style.transform = 'scale(1)';
+            }, 10);
+        }
+        function closeModal() {
+            document.getElementById('thankYouModal').classList.remove('active');
+        }
+    </script>
+</body>
+</html>

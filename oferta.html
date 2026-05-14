@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espere! Oferta Especial - Central do Professor de Música</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        html { scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .urgent-bar {
+            background: #dc2626;
+            color: white;
+            padding: 8px 15px;
+            text-align: center;
+            font-weight: 800;
+            font-size: 14px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .countdown {
+            background: rgba(0,0,0,0.2);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .warning-hero {
+            padding: 50px 20px 30px;
+            text-align: center;
+        }
+
+        .warning-text {
+            color: #dc2626;
+            font-weight: 900;
+            font-size: 24px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .warning-text span { font-size: 30px; }
+
+        .main-headline {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 900;
+            line-height: 1.1;
+            color: #0f172a;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .sub-headline {
+            font-size: 18px;
+            color: #475569;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            font-weight: 500;
+        }
+
+        .highlight-blue { color: #2563eb; }
+
+        .offer-card {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            margin-bottom: 40px;
+            border: 1px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .offer-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #2563eb, #3b82f6);
+        }
+
+        .price-section {
+            background: #f0fdf4;
+            border: 2px dashed #4ade80;
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .price-value {
+            font-size: 56px;
+            font-weight: 900;
+            color: #16a34a;
+            line-height: 1;
+            margin: 10px 0;
+        }
+
+        .price-strike {
+            text-decoration: line-through;
+            color: #94a3b8;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            display: block;
+            background: #22c55e;
+            color: white;
+            padding: 22px 30px;
+            border-radius: 12px;
+            font-size: 20px;
+            font-weight: 800;
+            text-align: center;
+            text-decoration: none;
+            text-transform: uppercase;
+            box-shadow: 0 10px 20px rgba(34, 197, 94, 0.3);
+            transition: all 0.3s;
+            animation: pulse-btn 2s infinite;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background: #16a34a;
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px rgba(34, 197, 94, 0.4);
+        }
+
+        @keyframes pulse-btn {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .btn-reject {
+            display: inline-block;
+            margin-top: 25px;
+            color: #94a3b8;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: underline;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .btn-reject:hover { color: #64748b; }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .item-card {
+            background: #ffffff;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            padding: 25px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            transition: transform 0.3s;
+        }
+
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+        }
+
+        .item-icon {
+            font-size: 36px;
+            background: #dbeafe;
+            width: 64px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            flex-shrink: 0;
+        }
+
+        .item-content {
+            flex-grow: 1;
+        }
+
+        .item-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .item-desc {
+            font-size: 15px;
+            color: #475569;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .item-bullet {
+            font-size: 14px;
+            color: #334155;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .item-bullet::before {
+            content: '✓';
+            color: #16a34a;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .guarantee {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .guarantee img {
+            width: 60px;
+        }
+
+        .guarantee-text {
+            font-size: 14px;
+            color: #475569;
+            text-align: left;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .offer-card { padding: 25px; }
+            .main-headline { font-size: 28px; }
+            .btn-primary { font-size: 16px; padding: 18px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="urgent-bar">
+        ⚠️ ATENÇÃO: Essa oferta aparece apenas uma vez
+        <span class="countdown" id="countdown">05:00</span>
+    </div>
+
+    <div class="container">
+        <div class="warning-hero">
+            <div class="warning-text"><span>✋</span> ESPERE! NÃO FECHE ESTA PÁGINA</div>
+            <h1 class="main-headline">Você já resolveu suas aulas. Mas e a sua <span class="highlight-blue">captação de alunos?</span></h1>
+            <p class="sub-headline">Seu material didático já está garantido. Porém, dar uma aula incrível é apenas 50% do caminho. Os outros 50% são <strong>parecer profissional</strong> para lotar sua agenda e cobrar mais caro.</p>
+        </div>
+
+        <div class="offer-card">
+            <h2 style="font-size: 24px; font-weight: 800; text-align: center; margin-bottom: 20px;">Apresentamos a <span class="highlight-blue">Central do Professor de Música</span></h2>
+            
+            <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 16px; padding: 25px; margin-bottom: 40px;">
+                <h3 style="font-size: 20px; font-weight: 800; color: #166534; margin-bottom: 10px;">Você sabe dar aula. Mas as pessoas precisam descobrir isso.</h3>
+                <p style="color: #15803d; font-size: 16px; margin-bottom: 15px; font-weight: 500;">Muitos professores de música são excelentes ensinando, mas acabam ficando invisíveis porque não sabem divulgar suas aulas com clareza.</p>
+                <p style="color: #15803d; font-size: 16px; margin-bottom: 15px;">A Central do Professor de Música resolve essa parte com <strong>ideias prontas para você postar, chamar interessados, responder no WhatsApp, recuperar conversas paradas e criar campanhas simples</strong> para atrair novos alunos.</p>
+                <p style="color: #15803d; font-size: 16px; font-weight: 500;">Em vez de depender só de indicação ou ficar esperando alguém aparecer, você passa a ter uma rotina simples de divulgação para mostrar seu trabalho com mais profissionalismo.</p>
+            </div>
+
+            <div class="items-grid">
+                <div class="item-card">
+                    <div class="item-icon">📱</div>
+                    <div class="item-content">
+                        <div class="item-title">Kit de Captação de Alunos</div>
+                        <div class="item-desc">Pare de depender apenas de indicação. Receba uma estrutura pronta para divulgar suas aulas com mais clareza, constância e profissionalismo.</div>
+                        <div class="item-bullet">Ideias e roteiros práticos de posts, stories e Reels para gerar interesse</div>
+                        <div class="item-bullet">Mensagens prontas para enviar em grupos de WhatsApp e responder interessados</div>
+                        <div class="item-bullet">Plano de ação e campanhas simples para atrair alunos em 30 dias</div>
+                    </div>
+                </div>
+
+                <div class="item-card">
+                    <div class="item-icon">🎥</div>
+                    <div class="item-content">
+                        <div class="item-title">Guia da Vídeo Demo Impecável</div>
+                        <div class="item-desc">Descubra como gravar vídeos curtos que mostram sua autoridade imediata, mesmo usando só o celular.</div>
+                        <div class="item-bullet">Roteiros validados para vídeos de 30 a 60 segundos</div>
+                        <div class="item-bullet">Checklist de iluminação, enquadramento e áudio caseiro</div>
+                        <div class="item-bullet">Como transmitir confiança na fala sem parecer artificial</div>
+                    </div>
+                </div>
+
+                <div class="item-card">
+                    <div class="item-icon">⭐</div>
+                    <div class="item-content">
+                        <div class="item-title">Pack de Posicionamento Premium</div>
+                        <div class="item-desc">Transforme suas redes sociais em uma vitrine que justifica cobrar o dobro do que você cobra hoje.</div>
+                        <div class="item-bullet">Estruturas de Bio para o Instagram que geram autoridade</div>
+                        <div class="item-bullet">Como organizar seus destaques e feed para encantar os pais</div>
+                        <div class="item-bullet">PDF editável para enviar como proposta de aulas</div>
+                    </div>
+                </div>
+
+                <div class="item-card">
+                    <div class="item-icon">🤝</div>
+                    <div class="item-content">
+                        <div class="item-title">Máquina de Indicações e Growth</div>
+                        <div class="item-desc">Pare de depender apenas de novos alunos e crie um ecossistema onde seus alunos atuais trazem mais pessoas.</div>
+                        <div class="item-bullet">Scripts sutis para pedir indicações sem soar chato</div>
+                        <div class="item-bullet">Campanhas de recompensa que estimulam o boca a boca</div>
+                        <div class="item-bullet">Modelos de mensagens para ex-alunos voltarem a estudar com você</div>
+                    </div>
+                </div>
+
+                <div class="item-card" style="grid-column: 1 / -1; max-width: 600px; margin: 0 auto;">
+                    <div class="item-icon">🎵</div>
+                    <div class="item-content">
+                        <div class="item-title">Guia de Repertório Inteligente</div>
+                        <div class="item-desc">Deixe o improviso de lado. Tenha roteiros de repertório categorizados para acelerar o aprendizado de cada tipo de aluno.</div>
+                        <div class="item-bullet">Músicas ideais separadas por faixa etária e interesse</div>
+                        <div class="item-bullet">Sugestões de repertório por nível técnico e estilo musical</div>
+                        <div class="item-bullet">Como adaptar músicas complexas para motivar iniciantes nas primeiras aulas</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="price-section">
+                <div style="font-size: 16px; font-weight: 700; color: #15803d; text-transform: uppercase;">Oferta Exclusiva nesta página</div>
+                <div class="price-strike">De R$ 123,50</div>
+                <div class="price-value">R$ 34,90</div>
+                <div style="color: #475569; font-weight: 600; max-width: 650px; margin: 0 auto; line-height: 1.5;">Inclui um Kit de Captação completo com posts, stories, Reels, mensagens de WhatsApp, campanhas de divulgação e plano de 30 dias para atrair mais interessados para suas aulas de música.</div>
+            </div>
+
+            <!-- TROCAR PELO LINK DO CHECKOUT DO UPSELL -->
+            <a href="https://checkout.educacaodivertida.site/VCCL1O8SD1VU" class="btn-primary">Adicionar ao Meu Pedido Agora</a>
+
+            <div style="text-align: center;">
+                <a href="ultichance" class="btn-reject">Não, obrigado. Prefiro continuar tendo dificuldade para captar alunos e me organizando no improviso.</a>
+            </div>
+
+            <div class="guarantee">
+                <div style="font-size: 40px;">🛡️</div>
+                <div class="guarantee-text">
+                    <strong>Risco Zero.</strong> Se você achar que esse kit não ajuda a profissionalizar sua rotina, basta pedir o reembolso em até 7 dias. Sem perguntas.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const countdownElement = document.getElementById('countdown');
+        let countdownTime = 5 * 60;
+        const updateCountdown = () => {
+            const minutes = Math.floor(countdownTime / 60);
+            const seconds = countdownTime % 60;
+            countdownElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            if (countdownTime > 0) countdownTime -= 1;
+        };
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
