@@ -1,0 +1,91 @@
+    <!-- Features -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">O que existe dentro do material</h2>
+            <p style="color: #666; margin-top: -16px; margin-bottom: 24px; font-size: 16px; text-align: center;">Material organizado com dinâmicas e atividades para professores que trabalham com crianças, adolescentes ou adultos em aulas de música e instrumentos.</p>
+            <div class="carousel-container">
+                <div class="carousel-track">
+                    <div class="carousel-item">
+                        <div class="carousel-image">
+                            <img src="de_onde_vem_o_som.png" alt="De Onde Vem o Som?">
+                            <div class="carousel-label">De Onde Vem o Som?</div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="carousel-image">
+                            <img src="02_Atividades_Simples_Exercicios.pdf.png" alt="Atividades Simples e Exercícios">
+                            <div class="carousel-label">Atividades Simples e Exercícios</div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="carousel-image">
+                            <img src="Dinamicas_Vocais_Educacao_Divertida.pdf.png" alt="Dinâmicas Vocais">
+                            <div class="carousel-label">Dinâmicas Vocais</div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="carousel-image">
+                            <img src="01_Atividades_Para_Casa.pdf.png" alt="Atividades para Treinar em Casa">
+                            <div class="carousel-label">Atividades para Treinar em Casa</div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="carousel-image">
+                            <img src="reset_de_atenção.png" alt="Reset de Atenção">
+                            <div class="carousel-label">Reset de Atenção</div>
+                        </div>
+                    </div>
+
+                    <div class="carousel-item">
+                        <div class="carousel-image">
+                            <img src="de_onde_vem_o_som.png" alt="De Onde Vem o Som?">
+                            <div class="carousel-label">De Onde Vem o Som?</div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="carousel-image">
+                            <img src="02_Atividades_Simples_Exercicios.pdf.png" alt="Atividades Simples e Exercícios">
+                            <div class="carousel-label">Atividades Simples e Exercícios</div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="carousel-image">
+                            <img src="Dinamicas_Vocais_Educacao_Divertida.pdf.png" alt="Dinâmicas Vocais">
+                            <div class="carousel-label">Dinâmicas Vocais</div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="carousel-image">
+                            <img src="01_Atividades_Para_Casa.pdf.png" alt="Atividades para Treinar em Casa">
+                            <div class="carousel-label">Atividades para Treinar em Casa</div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="carousel-image">
+                            <img src="reset_de_atenção.png" alt="Reset de Atenção">
+                            <div class="carousel-label">Reset de Atenção</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-nav">
+                <button class="carousel-arrow carousel-prev" type="button" aria-label="Ver item anterior">‹</button>
+                <button class="carousel-arrow carousel-next" type="button" aria-label="Ver próximo item">›</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits -->
+    <section class="benefits">
+        <div class="container">
+            <h2 class="section-title">Você se identifica com alguma dessas situações?</h2>
+            <div class="benefits-list">
+                <div class="benefit-item fade-in"><p>Você perde <strong>horas toda semana</strong> tentando decidir o que aplicar, como variar e como manter a aula interessante.</p></div>
+                <div class="benefit-item fade-in"><p>Muitas vezes parece que <strong>tudo depende de você</strong>: ideia, adaptação, condução e engajamento do aluno.</p></div>
+                <div class="benefit-item fade-in"><p>Em vez de conduzir com calma, você entra em aula <strong>improvisando demais</strong> e sai com a cabeça pesada.</p></div>
+                <div class="benefit-item fade-in"><p>Quando o aluno trava, dispersa ou desanima, você sente falta de <strong>repertório prático na mão</strong> para reagir rápido.</p></div>
+                <div class="benefit-item fade-in"><p>Você quer uma solução que funcione em <strong>aulas reais</strong>, e não um PDF solto com ideias aleatórias.</p></div>
+            </div>
+            <div class="benefits-transition-highlight">Se você se viu em alguma dessas situações, esse material é para você.</div>
+        </div>
+    </section>
