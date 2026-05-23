@@ -2545,12 +2545,10 @@
         .vsl-unmute-overlay { position: absolute; inset: 0; z-index: 10; cursor: pointer; display: flex; align-items: flex-end; justify-content: center; padding: 0 18px 18px; pointer-events: auto; transition: opacity .4s ease; }
         .vsl-unmute-pill { background: rgba(0,0,0,.65); backdrop-filter: blur(4px); border-radius: 50px; padding: 10px 22px; color: #fff; font-family: 'Poppins', -apple-system, sans-serif; font-size: .9rem; font-weight: 700; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 16px rgba(0,0,0,.35); letter-spacing: .3px; animation: pulseSoft 2s ease-in-out infinite; }
 
-        .carousel-wrapper { display: flex; align-items: center; gap: 16px; width: 100%; max-width: 900px; margin: 0 auto; }
-        .carousel-track-container { flex: 1; min-width: 0; overflow: hidden; touch-action: pan-y; width: 100%; }
-        .carousel-track { display: flex; width: 100%; transition: transform .45s cubic-bezier(.25,.46,.45,.94); will-change: transform; }
-        .carousel-slide { flex: 0 0 100%; max-width: 100%; text-align: center; display: flex; justify-content: center; align-items: center; padding: 10px; box-sizing: border-box; }
-        .carousel-slide img { max-width: 100%; width: auto; max-height: 480px; height: auto; border-radius: 14px; box-shadow: 0 10px 30px rgba(30, 64, 175, 0.15); border: 3px solid #BFDBFE; object-fit: contain; transition: transform 0.3s ease; background: white; }
-        .carousel-slide img:hover { transform: scale(1.02); }
+        .carousel-wrapper { display: grid; grid-template-columns: 52px minmax(0, 1fr) 52px; align-items: center; gap: 16px; width: 100%; max-width: 900px; margin: 0 auto; }
+        .material-preview-frame { width: 100%; min-height: 520px; display: flex; align-items: center; justify-content: center; overflow: hidden; touch-action: pan-y; padding: 10px; box-sizing: border-box; }
+        .material-preview-image { display: block; max-width: 100%; max-height: 500px; width: auto; height: auto; border-radius: 14px; box-shadow: 0 10px 30px rgba(30, 64, 175, 0.15); border: 3px solid #BFDBFE; object-fit: contain; background: white; opacity: 1; transform: translateX(0); transition: opacity .28s ease, transform .28s ease; }
+        .material-preview-image.is-changing { opacity: 0; transform: translateX(14px); }
         .carousel-btn { background: white; border: 2px solid #BFDBFE; color: #1e40af; width: 52px; height: 52px; border-radius: 50%; font-size: 24px; font-weight: bold; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(30,64,175,.15); transition: all .2s ease; z-index: 2; }
         .carousel-btn:hover { background: #1e40af; color: white; border-color: #1e40af; transform: scale(1.08); }
         .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-top: 20px; }
@@ -2585,8 +2583,9 @@
 
         @media (max-width: 768px) {
             .carousel-btn { width: 42px; height: 42px; font-size: 20px; }
-            .carousel-wrapper { gap: 8px; }
-            .carousel-slide img { max-height: 350px; }
+            .carousel-wrapper { grid-template-columns: 42px minmax(0, 1fr) 42px; gap: 8px; }
+            .material-preview-frame { min-height: 380px; padding: 6px; }
+            .material-preview-image { max-height: 360px; }
             .video-wrapper { max-width: 90% !important; border-radius: 12px; }
         }
     </style>
@@ -2609,7 +2608,7 @@
             <p class="hero-subtitle" style="margin-top: 10px; margin-bottom: 20px; font-size: 17px;">Ferramentas prontas para deixar suas aulas mais leves, organizadas e participativas.</p>
             <div class="video-wrapper" style="max-width: 360px;">
               <div class="video-ratio" style="padding-top: 177.77%;">
-                <iframe id="vsl-iframe" data-vsl-src="https://www.youtube.com/embed/axIyAlrMA7k?autoplay=1&mute=1&playsinline=1&enablejsapi=1&rel=0" src="about:blank" title="PREVIA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>
+                <iframe id="vsl-iframe" src="https://www.youtube.com/embed/axIyAlrMA7k?autoplay=1&mute=1&playsinline=1&enablejsapi=1&rel=0" title="PREVIA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>
               </div>
               <div id="vsl-unmute-overlay" class="vsl-unmute-overlay" role="button" aria-label="Ativar som do video">
                 <div class="vsl-unmute-pill">Toque para ouvir</div>
@@ -2624,20 +2623,12 @@
     <!-- Features -->
     <section class="features">
         <div class="container">
-            <h2 class="section-title">O que existe dentro do material</h2>
-            <p style="color: #666; margin-top: -16px; margin-bottom: 24px; font-size: 16px; text-align: center;">Material organizado com dinâmicas e atividades para professores que trabalham com crianças, adolescentes ou adultos em aulas de música e instrumentos.</p>
+            <h2 class="section-title">Prévia do material por dentro</h2>
+            <p style="color: #666; margin-top: -16px; margin-bottom: 24px; font-size: 16px; text-align: center;">Veja algumas páginas do material passando automaticamente, uma por vez.</p>
             <div class="carousel-wrapper">
                 <button class="carousel-btn carousel-prev" aria-label="Anterior">‹</button>
-                <div class="carousel-track-container">
-                    <div class="carousel-track">
-                        <div class="carousel-slide"><img src="de_onde_vem_o_som.png" alt="De Onde Vem o Som?"></div>
-                        <div class="carousel-slide"><img src="02_Atividades_Simples_Exercicios.pdf.png" alt="Atividades Simples e Exercícios"></div>
-                        <div class="carousel-slide"><img src="Dinamicas_Vocais_Educacao_Divertida.pdf.png" alt="Dinâmicas Vocais"></div>
-                        <div class="carousel-slide"><img src="50_dinamicas_inclusivas_com_capa_56_paginas.png" alt="Dinâmicas Inclusivas"></div>
-                        <div class="carousel-slide"><img src="reset_de_atenção.png" alt="Reset de Atenção"></div>
-                        <div class="carousel-slide"><img src="educacao_divertida_dinamicas_musica_paginas_10_63_compactado.png" alt="Dinâmicas e Atividades"></div>
-                        <div class="carousel-slide"><img src="E_muito_mais.png" alt="E muito mais" onerror="this.src='mockup.png'"></div>
-                    </div>
+                <div class="material-preview-frame">
+                    <img class="material-preview-image" src="de_onde_vem_o_som.png" alt="De Onde Vem o Som?">
                 </div>
                 <button class="carousel-btn carousel-next" aria-label="Próximo">›</button>
             </div>
@@ -2734,8 +2725,8 @@
     <section class="bonuses">
         <div class="container">
             <div class="bonus-header">
-                <h2 class="section-title">AO COMPRAR HOJE VOCÊ RECEBE 3 BÔNUS EXCLUSIVOS</h2>
-                <div class="bonus-badge"><strong>3 BÔNUS INCLUSOS + OUTROS EXTRAS</strong></div>
+                <h2 class="section-title">AO COMPRAR HOJE VOCÊ RECEBE <span class="blue">5 BÔNUS EXCLUSIVOS</span></h2>
+                <div class="bonus-badge"><strong>CONFIRA OS 3 MAIS BUSCADOS 🔥</strong></div>
             </div>
             <div class="bonuses-grid">
                 <div class="bonus-card fade-in">
@@ -2831,7 +2822,7 @@
                     <div class="pricing-urgency">PLANO COMPLETO</div>
                     <h2 class="pricing-title">+400 Recursos Musicais</h2>
                     <div class="pricing-features" style="font-size: 18px; gap: 14px;">
-                        <div class="pricing-feature primary-offer">Tudo do essencial + 3 bônus inclusos</div>
+                        <div class="pricing-feature primary-offer">Tudo do essencial + 5 bônus exclusivos inclusos</div>
                         <div class="pricing-feature gift-highlight">
                             <strong class="gift-title">MAIS BUSCADOS 🔥</strong>
                             <span class="gift-line">🎁 +50 dinâmicas para alunos com dificuldades, TEA e autismo</span>
@@ -3018,18 +3009,12 @@
     </div>
 
     <script>
-        // VSL muted autoplay after 1 second, with click-to-unmute overlay.
+        // VSL muted autoplay with click-to-unmute overlay.
         (function () {
           var overlay = document.getElementById('vsl-unmute-overlay');
           var iframe = document.getElementById('vsl-iframe');
           var wantsSound = false;
           if (!overlay || !iframe) return;
-
-          function ensureVideoLoaded() {
-            if (!iframe.getAttribute('src') || iframe.getAttribute('src') === 'about:blank') {
-              iframe.setAttribute('src', iframe.getAttribute('data-vsl-src'));
-            }
-          }
 
           function sendYoutubeCommand(func, args) {
             if (!iframe.contentWindow) return;
@@ -3040,14 +3025,12 @@
           }
 
           function startMuted() {
-            ensureVideoLoaded();
             sendYoutubeCommand('mute');
             sendYoutubeCommand('playVideo');
           }
 
           function unmute() {
             wantsSound = true;
-            ensureVideoLoaded();
             sendYoutubeCommand('playVideo');
             sendYoutubeCommand('unMute');
             sendYoutubeCommand('setVolume', [100]);
@@ -3056,7 +3039,7 @@
             setTimeout(function () { overlay.style.display = 'none'; }, 420);
           }
 
-          setTimeout(startMuted, 1000);
+          startMuted();
           iframe.addEventListener('load', function () {
             sendYoutubeCommand('playVideo');
             if (wantsSound) {
@@ -3070,15 +3053,29 @@
           overlay.addEventListener('touchstart', unmute, { passive: true });
         })();
 
-        // Auto carousel
-        var slides = document.querySelectorAll('.carousel-slide');
+        // Material preview: one centered image at a time.
+        var previewItems = [
+          { src: 'de_onde_vem_o_som.png', alt: 'De Onde Vem o Som?' },
+          { src: '02_Atividades_Simples_Exercicios.pdf.png', alt: 'Atividades Simples e Exercícios' },
+          { src: 'Dinamicas_Vocais_Educacao_Divertida.pdf.png', alt: 'Dinâmicas Vocais' },
+          { src: '50_dinamicas_inclusivas_com_capa_56_paginas.png', alt: 'Dinâmicas Inclusivas' },
+          { src: 'reset_de_atenção.png', alt: 'Reset de Atenção' },
+          { src: 'educacao_divertida_dinamicas_musica_paginas_10_63_compactado.png', alt: 'Dinâmicas e Atividades' },
+          { src: 'E_muito_mais.png', alt: 'E muito mais' }
+        ];
+        var previewImage = document.querySelector('.material-preview-image');
         var dots = document.querySelectorAll('.carousel-dot');
-        var track = document.querySelector('.carousel-track');
         var current = 0;
         function goTo(index) {
-          if (!slides.length) return;
-          current = ((index % slides.length) + slides.length) % slides.length;
-          if (track) track.style.transform = 'translateX(-' + (current * 100) + '%)';
+          if (!previewImage || !previewItems.length) return;
+          current = ((index % previewItems.length) + previewItems.length) % previewItems.length;
+          var item = previewItems[current];
+          previewImage.classList.add('is-changing');
+          setTimeout(function () {
+            previewImage.src = item.src;
+            previewImage.alt = item.alt;
+            previewImage.classList.remove('is-changing');
+          }, 180);
           dots.forEach(function (d, i) { d.classList.toggle('active', i === current); });
         }
         var prevBtn = document.querySelector('.carousel-prev');
@@ -3086,8 +3083,8 @@
         if (prevBtn) prevBtn.addEventListener('click', function () { goTo(current - 1); });
         if (nextBtn) nextBtn.addEventListener('click', function () { goTo(current + 1); });
         dots.forEach(function (d, i) { d.addEventListener('click', function () { goTo(i); }); });
-        if (slides.length > 0) setInterval(function () { goTo(current + 1); }, 4000);
-        var trackContainer = document.querySelector('.carousel-track-container');
+        if (previewItems.length > 0) setInterval(function () { goTo(current + 1); }, 3500);
+        var trackContainer = document.querySelector('.material-preview-frame');
         var touchStartX = null;
         if (trackContainer) {
           trackContainer.addEventListener('touchstart', function (e) { touchStartX = e.touches[0].clientX; }, { passive: true });
