@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>+200 Dinâmicas para Professores de Música</title>
     <link rel="icon" type="image/png" href="favicon.png">
+    <script src="https://player.vimeo.com/api/player.js"></script>
     <script>
         !function(f,b,e,v,n,t,s)
         {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -2543,9 +2544,13 @@
         .video-placeholder i.play-btn { font-size: 4rem; color: #16a34a; margin-bottom: 16px; animation: pulseSoft 2s infinite; cursor: pointer; text-shadow: 0 0 20px rgba(22,163,74,0.3); font-style: normal; }
         .video-placeholder p { font-size: 0.95rem; font-weight: 600; color: #f1f5f9; line-height: 1.4; margin: 0; }
         .video-placeholder span { font-size: 0.72rem; color: #64748b; margin-top: 8px; }
+        .vsl-frame { position: absolute; inset: 0; width: 100%; height: 100%; border: none; background: #0f172a; }
+        .vsl-click-layer { position: absolute; inset: 0; z-index: 6; display: block; width: 100%; height: 100%; padding: 0; border: 0; background: transparent; cursor: pointer; }
         .vsl-unmute-overlay { position: absolute; inset: 0; z-index: 10; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 18px; pointer-events: auto; transition: opacity .4s ease; }
         .vsl-unmute-pill { background: rgba(15,23,42,.82); backdrop-filter: blur(6px); border: 2px solid rgba(255,255,255,.85); border-radius: 18px; padding: 16px 20px; color: #fff; font-family: 'Poppins', -apple-system, sans-serif; font-size: 1rem; font-weight: 900; display: grid; justify-items: center; gap: 4px; box-shadow: 0 8px 26px rgba(0,0,0,.42); letter-spacing: .3px; animation: pulseSoft 2s ease-in-out infinite; text-align: center; text-transform: uppercase; line-height: 1.15; }
         .vsl-unmute-pill span { display: block; font-size: .72rem; font-weight: 700; text-transform: none; opacity: .92; }
+        .vsl-progress { position: absolute; left: 16px; right: 16px; bottom: 14px; z-index: 8; height: 5px; border-radius: 999px; background: rgba(255,255,255,.34); overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,.25); pointer-events: none; }
+        .vsl-progress-bar { display: block; width: 0%; height: 100%; border-radius: inherit; background: linear-gradient(90deg,#16a34a,#3b82f6); transition: width .16s linear; }
 
         .carousel-wrapper { display: grid; grid-template-columns: 52px minmax(0, 1fr) 52px; align-items: center; gap: 16px; width: 100%; max-width: 900px; margin: 0 auto; }
         .material-preview-frame { width: 100%; min-height: 520px; display: flex; align-items: center; justify-content: center; overflow: hidden; touch-action: pan-y; padding: 10px; box-sizing: border-box; }
@@ -2613,7 +2618,9 @@
             <p class="hero-subtitle" style="margin-top: 10px; margin-bottom: 20px; font-size: 17px;">Ferramentas prontas para deixar suas aulas mais leves, organizadas e participativas.</p>
             <div class="video-wrapper" style="max-width: 360px;">
               <div class="video-ratio" style="padding-top: 177.77%;">
-                <iframe id="vsl-iframe" src="https://www.youtube.com/embed/axIyAlrMA7k?autoplay=1&mute=1&playsinline=1&enablejsapi=1&controls=0&rel=0&modestbranding=1" title="PREVIA" frameborder="0" loading="eager" allow="autoplay; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>
+                <iframe id="vsl-frame" class="vsl-frame" src="https://player.vimeo.com/video/1194913740?autoplay=0&amp;muted=1&amp;playsinline=1&amp;controls=0&amp;title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;api=1&amp;player_id=vsl-frame" title="VSL-1" frameborder="0" loading="eager" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                <button id="vsl-click-layer" class="vsl-click-layer" type="button" aria-label="Pausar ou reproduzir video"></button>
+                <div class="vsl-progress" aria-hidden="true"><span class="vsl-progress-bar"></span></div>
               </div>
               <div id="vsl-unmute-overlay" class="vsl-unmute-overlay" role="button" aria-label="Ativar som do video">
                 <div class="vsl-unmute-pill">Toque para ouvir</div>
@@ -3014,50 +3021,106 @@
     </div>
 
     <script>
-        // VSL muted autoplay with click-to-unmute overlay.
+        // VSL Vimeo player: delayed muted autoplay with click-to-unmute overlay.
         (function () {
           var overlay = document.getElementById('vsl-unmute-overlay');
-          var iframe = document.getElementById('vsl-iframe');
-          var wantsSound = false;
-          if (!overlay || !iframe) return;
+          var frame = document.getElementById('vsl-frame');
+          var clickLayer = document.getElementById('vsl-click-layer');
+          var progress = document.querySelector('.vsl-progress-bar');
+          var isPlaying = false;
+          var hasSound = false;
+          var player = window.Vimeo ? new Vimeo.Player(frame) : null;
+          if (!overlay || !frame || !clickLayer) return;
 
-          function sendYoutubeCommand(func, args) {
-            if (!iframe.contentWindow) return;
-            iframe.contentWindow.postMessage(
-              JSON.stringify({ event: 'command', func: func, args: args || [] }),
-              '*'
-            );
+          function sendVimeoCommand(method, value) {
+            if (!frame.contentWindow) return;
+            frame.contentWindow.postMessage(JSON.stringify({
+              method: method,
+              value: value
+            }), 'https://player.vimeo.com');
           }
 
           function startMuted() {
-            sendYoutubeCommand('mute');
-            sendYoutubeCommand('playVideo');
-          }
-
-          function nudgeAutoplay() {
-            startMuted();
-            setTimeout(startMuted, 350);
-            setTimeout(startMuted, 900);
+            if (player) {
+              player.setVolume(0).catch(function () {});
+              player.play().catch(function () {});
+            } else {
+              sendVimeoCommand('setVolume', 0);
+              sendVimeoCommand('play');
+            }
+            isPlaying = true;
           }
 
           function unmute() {
-            wantsSound = true;
-            sendYoutubeCommand('playVideo');
-            sendYoutubeCommand('unMute');
-            sendYoutubeCommand('setVolume', [100]);
+            hasSound = true;
+            if (player) {
+              player.setVolume(1).catch(function () {});
+              player.play().catch(function () {});
+            } else {
+              sendVimeoCommand('setVolume', 1);
+              sendVimeoCommand('play');
+            }
+            isPlaying = true;
+            setTimeout(function () {
+              if (player) {
+                player.setVolume(1).catch(function () {});
+                player.play().catch(function () {});
+              } else {
+                sendVimeoCommand('setVolume', 1);
+                sendVimeoCommand('play');
+              }
+            }, 250);
             overlay.style.opacity = '0';
             overlay.style.pointerEvents = 'none';
             setTimeout(function () { overlay.style.display = 'none'; }, 420);
           }
 
-          nudgeAutoplay();
-          iframe.addEventListener('load', function () {
-            nudgeAutoplay();
-            if (wantsSound) {
-              sendYoutubeCommand('unMute');
-              sendYoutubeCommand('setVolume', [100]);
+          setTimeout(startMuted, 1000);
+          if (player && progress) {
+            player.on('timeupdate', function (data) {
+              if (data.duration > 0) {
+                progress.style.width = Math.min((data.seconds / data.duration) * 100, 100) + '%';
+              }
+            });
+            player.on('ended', function () {
+              progress.style.width = '0%';
+              isPlaying = false;
+            });
+            player.on('play', function () { isPlaying = true; });
+            player.on('pause', function () { isPlaying = false; });
+          }
+          window.addEventListener('message', function (event) {
+            if (event.origin !== 'https://player.vimeo.com') return;
+            var data = event.data;
+            if (typeof data === 'string') {
+              try { data = JSON.parse(data); } catch (e) { return; }
+            }
+            if (!data || data.event !== 'timeupdate' || !data.data || !progress) return;
+            var duration = data.data.duration || 0;
+            var seconds = data.data.seconds || 0;
+            if (duration > 0) {
+              progress.style.width = Math.min((seconds / duration) * 100, 100) + '%';
+            }
+          });
+          clickLayer.addEventListener('click', function () {
+            if (!hasSound) {
+              unmute();
+              return;
+            }
+            if (isPlaying) {
+              if (player) {
+                player.pause().catch(function () {});
+              } else {
+                sendVimeoCommand('pause');
+              }
+              isPlaying = false;
             } else {
-              sendYoutubeCommand('mute');
+              if (player) {
+                player.play().catch(function () {});
+              } else {
+                sendVimeoCommand('play');
+              }
+              isPlaying = true;
             }
           });
           overlay.addEventListener('click', unmute);
